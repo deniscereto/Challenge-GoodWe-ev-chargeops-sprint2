@@ -1,0 +1,15 @@
+# ambiente virtual
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# dados gerados ao rodar (recriados por executar_pipeline.py)
+data/
+
+# sistema
+.DS_Store
+Thumbs.db
