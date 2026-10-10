@@ -1,0 +1,32 @@
+{
+  "hasError": false,
+  "code": 0,
+  "msg": "success",
+  "data": {
+    "date": "2026-09-14",
+    "records": [
+      {
+        "orderId": "EVO2026091400192",
+        "sn": "HCA7K-G2-0001",
+        "cardNo": "RFID-778899",
+        "startTime": "2026-09-14 10:42:05",
+        "endTime": "2026-09-14 12:05:35",
+        "chargeDuration": 5010,
+        "chargeEnergy": 8.65,
+        "maxPower": 6335,
+        "stopReason": "EV_FULL"
+      },
+      {
+        "orderId": "EVO2026091400193",
+        "sn": "HCA7K-G2-0002",
+        "cardNo": "RFID-A1B2C4",
+        "startTime": "2026-09-14 14:37:21",
+        "endTime": "2026-09-14 17:15:18",
+        "chargeDuration": 9477,
+        "chargeEnergy": 16.63,
+        "maxPower": 6346,
+        "stopReason": "EV_FULL"
+      }
+    ]
+  }
+}
