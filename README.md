@@ -1,9 +1,7 @@
 # EV ChargeOps — Sprint 2: Desenvolvimento e Prototipação
 
 **Equipe:** Cereto Tech1
-**Integrantes (RM):**
-- Denis Urbano Cereto — RM 569187
-- [Nome do(s) demais integrante(s)] — RM [000000]
+**Integrante:** Denis Urbano Cereto — RM 569187
 
 **Desafio:** Enterprise Challenge 2026 — GoodWe / FIAP
 **Sprint 1 (pesquisa e arquitetura):** https://github.com/deniscereto/Challenge-GoodWe-ev-chargeops-sprint1
