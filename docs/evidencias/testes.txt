@@ -1,0 +1,30 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.16, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+rootdir: /home/claude/ev-chargeops-sprint2
+configfile: pytest.ini
+testpaths: tests
+plugins: anyio-4.15.1
+collecting ... collected 20 items
+
+tests/test_anomalias_ingestao.py::test_normalizacao_converte_unidades_e_identifica_morador PASSED [  5%]
+tests/test_anomalias_ingestao.py::test_cartao_desconhecido_fica_sem_unidade PASSED [ 10%]
+tests/test_anomalias_ingestao.py::test_ingestao_nao_duplica_sessoes PASSED [ 15%]
+tests/test_anomalias_ingestao.py::test_regra_sessao_longa_sem_energia PASSED [ 20%]
+tests/test_anomalias_ingestao.py::test_regra_potencia_acima_do_carregador PASSED [ 25%]
+tests/test_anomalias_ingestao.py::test_regra_cartao_nao_cadastrado PASSED [ 30%]
+tests/test_anomalias_ingestao.py::test_sessao_normal_passa_nas_regras PASSED [ 35%]
+tests/test_anomalias_ingestao.py::test_zscore_compara_com_historico_da_propria_unidade PASSED [ 40%]
+tests/test_anomalias_ingestao.py::test_zscore_ignora_historico_curto PASSED [ 45%]
+tests/test_anomalias_ingestao.py::test_gestor_nao_aprova_sessao_sem_unidade PASSED [ 50%]
+tests/test_rateio.py::test_cobra_kwh_vezes_tarifa_mais_manutencao PASSED [ 55%]
+tests/test_rateio.py::test_sessao_interrompida_cobra_so_o_que_foi_entregue PASSED [ 60%]
+tests/test_rateio.py::test_unidade_sem_sessao_nao_paga_nada PASSED       [ 65%]
+tests/test_rateio.py::test_dois_carros_mesma_unidade_somam_numa_fatura PASSED [ 70%]
+tests/test_rateio.py::test_sessao_em_revisao_fica_fora_da_cobranca PASSED [ 75%]
+tests/test_rateio.py::test_sessao_aprovada_pelo_gestor_entra_na_proxima_apuracao PASSED [ 80%]
+tests/test_rateio.py::test_sessao_rejeitada_nunca_e_cobrada PASSED       [ 85%]
+tests/test_rateio.py::test_rateio_bloqueado_se_ia_nao_rodou PASSED       [ 90%]
+tests/test_rateio.py::test_unidade_so_com_sessao_retida_nao_paga_manutencao PASSED [ 95%]
+tests/test_rateio.py::test_taxa_da_plataforma_aparece_separada PASSED    [100%]
+
+============================== 20 passed in 1.31s ==============================

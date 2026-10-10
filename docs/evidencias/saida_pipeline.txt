@@ -1,0 +1,100 @@
+
+==============================================================================
+1. Simulando o carregador HCA G2 / API SEMS
+==============================================================================
+Sessões geradas: 233  |  arquivos JSON em data/sems_mock
+
+==============================================================================
+2. Ingestão (Session Service)
+==============================================================================
+{
+  "lidas": 233,
+  "novas": 233,
+  "duplicadas": 0,
+  "cartao_desconhecido": 1
+}
+
+==============================================================================
+3. IA - detecção de anomalias (antes do rateio)
+==============================================================================
+Analisadas: 233  |  válidas: 216  |  retidas para revisão: 17
+  #33   2026-07-12T18:45  AP-101        12.1 kWh  ->  Combinação incomum de duração (754 min), energia (12.1 kWh) e potência (1.0 kW) segundo o Isolation Forest (score -0.013)
+  #56   2026-07-25T18:41  AP-101        33.7 kWh  ->  Potência média de 15.5 kW acima do máximo do carregador (7 kW): provável erro de medição
+  #71   2026-07-29T18:43  SEM UNIDADE   29.7 kWh  ->  Cartão RFID RFID-6604FC não está cadastrado em nenhuma unidade
+  #81   2026-08-01T20:29  AP-401        75.0 kWh  ->  Consumo de 75.0 kWh, 2.6x a média da unidade (28.6 kWh, z-score 6.2); Combinação incomum de duração (677 min), energia (75.0 kWh) e potência (6.7 kW) segundo o Isolation Forest (score -0.041)
+  #90   2026-08-04T19:46  AP-102        75.0 kWh  ->  Consumo de 75.0 kWh, 2.5x a média da unidade (29.9 kWh, z-score 5.0); Combinação incomum de duração (677 min), energia (75.0 kWh) e potência (6.7 kW) segundo o Isolation Forest (score -0.041)
+  #107  2026-08-11T02:36  AP-101         0.0 kWh  ->  Sessão de 60 min sem energia registrada (possível falha do equipamento)
+  #133  2026-08-22T01:34  AP-202        47.6 kWh  ->  Potência média de 22.8 kW acima do máximo do carregador (7 kW): provável erro de medição
+  #138  2026-08-23T18:48  AP-502         0.0 kWh  ->  Sessão de 246 min sem energia registrada (possível falha do equipamento)
+  #154  2026-09-01T18:30  AP-401         0.0 kWh  ->  Sessão de 152 min sem energia registrada (possível falha do equipamento)
+  #173  2026-09-07T14:44  AP-201        45.9 kWh  ->  Potência média de 24.2 kW acima do máximo do carregador (7 kW): provável erro de medição
+  #180  2026-09-09T21:37  AP-601        11.8 kWh  ->  Combinação incomum de duração (794 min), energia (11.8 kWh) e potência (0.9 kW) segundo o Isolation Forest (score -0.028)
+  #186  2026-09-11T12:28  AP-301         0.0 kWh  ->  Sessão de 157 min sem energia registrada (possível falha do equipamento)
+  #194  2026-09-14T18:50  AP-502        16.7 kWh  ->  Potência média de 15.9 kW acima do máximo do carregador (7 kW): provável erro de medição
+  #201  2026-09-17T22:37  AP-401        16.0 kWh  ->  Combinação incomum de duração (744 min), energia (16.0 kWh) e potência (1.3 kW) segundo o Isolation Forest (score -0.061)
+  #207  2026-09-19T20:32  AP-601        10.6 kWh  ->  Combinação incomum de duração (777 min), energia (10.6 kWh) e potência (0.8 kW) segundo o Isolation Forest (score -0.003)
+  #219  2026-09-24T11:32  AP-402         9.3 kWh  ->  Combinação incomum de duração (776 min), energia (9.3 kWh) e potência (0.7 kW) segundo o Isolation Forest (score -0.043)
+  #226  2026-09-27T14:59  AP-402        54.4 kWh  ->  Consumo de 54.4 kWh, 3.0x a média da unidade (18.3 kWh, z-score 7.7)
+
+==============================================================================
+4. Rateio - faturas por unidade
+==============================================================================
+
+Ciclo 2026-07  (tarifa R$ 0.98/kWh, manutenção R$ 240.00)
+  Unidade       kWh    Energia   Manut.  Plataf.      TOTAL  Sessões  Retidas
+  AP-101      275.0     269.46    26.67    16.17     312.30       14        2
+  AP-102      280.6     274.94    26.67    16.50     318.11       10        0
+  AP-201       59.6      58.39    26.67     3.50      88.56        4        0
+  AP-202      202.7     198.66    26.67    11.92     237.25        9        0
+  AP-301       92.0      90.18    26.67     5.41     122.26        8        0
+  AP-302      116.5     114.20    26.67     6.85     147.72        6        0
+  AP-401      300.1     294.14    26.67    17.65     338.46       10        0
+  AP-402      161.2     157.99    26.67     9.48     194.14        9        0
+  AP-501       76.8      75.27    26.67     4.52     106.46        5        0
+  Total arrecadado no ciclo:                       R$    1865.26
+
+Ciclo 2026-08  (tarifa R$ 0.98/kWh, manutenção R$ 240.00)
+  Unidade       kWh    Energia   Manut.  Plataf.      TOTAL  Sessões  Retidas
+  AP-101      249.2     244.19    24.00    14.65     282.84       14        1
+  AP-102      239.9     235.11    24.00    14.11     273.22        7        1
+  AP-201       92.3      90.47    24.00     5.43     119.90        5        0
+  AP-202      187.0     183.29    24.00    11.00     218.29        8        1
+  AP-301       58.7      57.52    24.00     3.45      84.97        6        0
+  AP-302       61.1      59.89    24.00     3.59      87.48        3        0
+  AP-401      308.9     302.68    24.00    18.16     344.84       11        1
+  AP-402      126.9     124.39    24.00     7.46     155.85        7        0
+  AP-501       69.8      68.41    24.00     4.10      96.51        5        0
+  AP-502       63.5      62.20    24.00     3.73      89.93        3        1
+  Total arrecadado no ciclo:                       R$    1753.83
+
+Ciclo 2026-09  (tarifa R$ 0.98/kWh, manutenção R$ 240.00)
+  Unidade       kWh    Energia   Manut.  Plataf.      TOTAL  Sessões  Retidas
+  AP-101      288.1     282.39    24.00    16.94     323.33       15        0
+  AP-102      137.3     134.55    24.00     8.07     166.62        5        0
+  AP-201      110.8     108.63    24.00     6.52     139.15        8        1
+  AP-202      258.6     253.47    24.00    15.21     292.68       10        0
+  AP-301       98.2      96.25    24.00     5.77     126.02       10        1
+  AP-401      147.2     144.26    24.00     8.66     176.92        5        2
+  AP-402      122.7     120.20    24.00     7.21     151.41        6        2
+  AP-501       10.2       9.98    24.00     0.60      34.58        1        0
+  AP-502      100.5      98.49    24.00     5.91     128.40        5        1
+  AP-601      144.2     141.36    24.00     8.48     173.84        7        2
+  Total arrecadado no ciclo:                       R$    1712.95
+
+==============================================================================
+5. IA - previsão de consumo (próximos 30 dias)
+==============================================================================
+Consumo previsto: 1259.5 kWh  (≈ R$ 1234.32 em energia)
+Tendência: -0.107 kWh/dia a cada dia que passa
+Validação nos últimos 14 dias: erro médio do modelo 19.76 kWh/dia vs. 22.58 kWh/dia do método ingênuo
+unidade_id  kwh_30d  participacao  kwh_previsto  fatura_estimada
+    AP-101   288.15      0.203220         256.0           289.93
+    AP-202   258.64      0.182408         229.7           262.61
+    AP-401   147.20      0.103814         130.8           159.88
+    AP-601   144.24      0.101726         128.1           157.07
+    AP-102   137.30      0.096832         122.0           150.73
+    AP-402   122.65      0.086500         108.9           137.13
+    AP-201   110.85      0.078178          98.5           126.32
+    AP-502   100.50      0.070878          89.3           116.76
+    AP-301    98.21      0.069263          87.2           114.58
+    AP-501    10.18      0.007180           9.0            33.35

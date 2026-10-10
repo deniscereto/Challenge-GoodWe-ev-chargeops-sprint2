@@ -1,0 +1,270 @@
+Chamadas reais à API (FastAPI TestClient) sobre o banco gerado por executar_pipeline.py
+
+$ GET /alertas
+HTTP 200
+{
+  "total_itens": 17,
+  "primeiros": [
+    {
+      "id": 33,
+      "id_externo": "EVO2026071200033",
+      "carregador_id": "HCA7K-G2-0001",
+      "cartao_rfid": "RFID-A1B2C4",
+      "usuario_id": 2,
+      "unidade_id": "AP-101",
+      "inicio": "2026-07-12T18:45:31",
+      "fim": "2026-07-13T07:20:04",
+      "duracao_min": 754.5,
+      "kwh": 12.05,
+      "potencia_media_kw": 0.958,
+      "potencia_pico_kw": 1.053,
+      "motivo_fim": "EV_FULL",
+      "status": "em_revisao",
+      "score_anomalia": -0.0127,
+      "alerta": "Combinação incomum de duração (754 min), energia (12.1 kWh) e potência (1.0 kW) segundo o Isolation Forest (score -0.013)",
+      "revisado_em": null,
+      "ingerido_em": "2026-10-10T15:53:44"
+    },
+    {
+      "id": 56,
+      "id_externo": "EVO2026072500056",
+      "carregador_id": "HCA7K-G2-0002",
+      "cartao_rfid": "RFID-A1B2C3",
+      "usuario_id": 1,
+      "unidade_id": "AP-101",
+      "inicio": "2026-07-25T18:41:31",
+      "fim": "2026-07-25T20:52:00",
+      "duracao_min": 130.5,
+      "kwh": 33.72,
+      "potencia_media_kw": 15.505,
+      "potencia_pico_kw": 6.015,
+      "motivo_fim": "EV_FULL",
+      "status": "em_revisao",
+      "score_anomalia": 0.1406,
+      "alerta": "Potência média de 15.5 kW acima do máximo do carregador (7 kW): provável erro de medição",
+      "revisado_em": null,
+      "ingerido_em": "2026-10-10T15:53:44"
+    }
+  ]
+}
+
+$ GET /faturas/2026-09/AP-402
+HTTP 200
+{
+  "fatura": {
+    "unidade_id": "AP-402",
+    "ciclo": "2026-09",
+    "kwh_cobrado": 122.65,
+    "valor_energia": 120.2,
+    "taxa_manutencao": 24.0,
+    "taxa_plataforma": 7.21,
+    "total": 151.41,
+    "sessoes_cobradas": 6,
+    "sessoes_em_revisao": 2,
+    "gerada_em": "2026-10-10T15:53:44"
+  },
+  "sessoes": [
+    {
+      "id": 157,
+      "inicio": "2026-09-02T11:13:15",
+      "duracao_min": 222.9,
+      "kwh": 23.92,
+      "status": "valida",
+      "alerta": null,
+      "usuario": "Gustavo Alves"
+    },
+    {
+      "id": 167,
+      "inicio": "2026-09-05T10:34:26",
+      "duracao_min": 93.0,
+      "kwh": 9.93,
+      "status": "valida",
+      "alerta": null,
+      "usuario": "Gustavo Alves"
+    },
+    "..."
+  ]
+}
+
+$ POST /sessoes/226/revisao  body={"aprovar": true}
+HTTP 200
+{
+  "sessao_id": 226,
+  "status": "aprovada",
+  "fatura_recalculada": "2026-09"
+}
+
+$ GET /faturas/2026-09/AP-402
+HTTP 200
+{
+  "fatura": {
+    "unidade_id": "AP-402",
+    "ciclo": "2026-09",
+    "kwh_cobrado": 177.04,
+    "valor_energia": 173.5,
+    "taxa_manutencao": 24.0,
+    "taxa_plataforma": 10.41,
+    "total": 207.91,
+    "sessoes_cobradas": 7,
+    "sessoes_em_revisao": 1,
+    "gerada_em": "2026-10-10T15:53:46"
+  },
+  "sessoes": [
+    {
+      "id": 157,
+      "inicio": "2026-09-02T11:13:15",
+      "duracao_min": 222.9,
+      "kwh": 23.92,
+      "status": "valida",
+      "alerta": null,
+      "usuario": "Gustavo Alves"
+    },
+    {
+      "id": 167,
+      "inicio": "2026-09-05T10:34:26",
+      "duracao_min": 93.0,
+      "kwh": 9.93,
+      "status": "valida",
+      "alerta": null,
+      "usuario": "Gustavo Alves"
+    },
+    "..."
+  ]
+}
+
+$ POST /sessoes/226/revisao  body={"aprovar": false}
+HTTP 400
+{
+  "detail": "Sessão 226 não está em revisão (status atual: aprovada)"
+}
+
+$ GET /faturas/2026-09/AP-602
+HTTP 404
+{
+  "detail": "Sem fatura para AP-602 em 2026-09 (unidade não usou o carregador)"
+}
+
+$ POST /ingestao  body={"inicio": "2026-09-01", "fim": "2026-09-30"}
+HTTP 200
+{
+  "ingestao": {
+    "lidas": 81,
+    "novas": 0,
+    "duplicadas": 81,
+    "cartao_desconhecido": 0
+  },
+  "ia_anomalias": {
+    "analisadas": 0,
+    "validas": 0,
+    "em_revisao": 0
+  },
+  "ciclos_recalculados": [
+    "2026-07",
+    "2026-08",
+    "2026-09"
+  ]
+}
+
+$ GET /previsao
+HTTP 200
+{
+  "total_previsto_kwh": 1341.4,
+  "custo_previsto_energia": 1314.61,
+  "tendencia_kwh_por_dia": -0.071,
+  "avaliacao": {
+    "dias_validacao": 14,
+    "mae_modelo_kwh_dia": 20.65,
+    "mae_ingenuo_kwh_dia": 21.66,
+    "real_total_kwh": 576.7,
+    "previsto_total_kwh": 707.8,
+    "ingenuo_total_kwh": 733.6
+  },
+  "por_unidade": [
+    {
+      "unidade_id": "AP-101",
+      "kwh_30d": 288.15,
+      "participacao": 0.1957128593842329,
+      "kwh_previsto": 262.5,
+      "fatura_estimada": 296.68
+    },
+    {
+      "unidade_id": "AP-202",
+      "kwh_30d": 258.64,
+      "participacao": 0.17566952611882006,
+      "kwh_previsto": 235.7,
+      "fatura_estimada": 268.85
+    },
+    {
+      "unidade_id": "AP-402",
+      "kwh_30d": 177.04,
+      "participacao": 0.1202464154967364,
+      "kwh_previsto": 161.3,
+      "fatura_estimada": 191.56
+    },
+    {
+      "unidade_id": "AP-401",
+      "kwh_30d": 147.2,
+      "participacao": 0.09997894465160188,
+      "kwh_previsto": 134.1,
+      "fatura_estimada": 163.3
+    },
+    {
+      "unidade_id": "AP-601",
+      "kwh_30d": 144.24,
+      "participacao": 0.09796849848197729,
+      "kwh_previsto": 131.4,
+      "fatura_estimada": 160.5
+    },
+    {
+      "unidade_id": "AP-102",
+      "kwh_30d": 137.3,
+      "participacao": 0.09325481725995205,
+      "kwh_previsto": 125.1,
+      "fatura_estimada": 153.95
+    },
+    {
+      "unidade_id": "AP-201",
+      "kwh_30d": 110.85,
+      "participacao": 0.07528985064286732,
+      "kwh_previsto": 101.0,
+      "fatura_estimada": 128.92
+    },
+    {
+      "unidade_id": "AP-502",
+      "kwh_30d": 100.5,
+      "participacao": 0.06826008109705156,
+      "kwh_previsto": 91.6,
+      "fatura_estimada": 119.15
+    },
+    {
+      "unidade_id": "AP-301",
+      "kwh_30d": 98.21000000000001,
+      "participacao": 0.06670470213474064,
+      "kwh_previsto": 89.5,
+      "fatura_estimada": 116.97
+    },
+    {
+      "unidade_id": "AP-501",
+      "kwh_30d": 10.18,
+      "participacao": 0.00691430473201975,
+      "kwh_previsto": 9.3,
+      "fatura_estimada": 33.66
+    }
+  ],
+  "diaria": [
+    {
+      "dia": "2026-10-01",
+      "kwh_previsto": 48.93
+    },
+    {
+      "dia": "2026-10-02",
+      "kwh_previsto": 48.86
+    },
+    {
+      "dia": "2026-10-03",
+      "kwh_previsto": 36.82
+    },
+    "..."
+  ]
+}
+

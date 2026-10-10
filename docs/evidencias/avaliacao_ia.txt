@@ -1,0 +1,26 @@
+AVALIAÇÃO DA DETECÇÃO DE ANOMALIAS - 10 cenários simulados (jul-set/2026)
+
+Semente  Sessões  Injetadas  Retidas  Acertos  Falso+  Perdidas  Recall  Precisão
+      1      223         20       21       20       1         0    100%       95%
+      2      208         12       12       12       0         0    100%      100%
+      3      233         17       17       17       0         0    100%      100%
+      4      230          9       15        9       6         0    100%       60%
+      5      227          7       11        7       4         0    100%       64%
+      6      242         14       14       14       0         0    100%      100%
+      7      234         11       11       11       0         0    100%      100%
+      8      220         14       12       12       0         2     86%      100%
+      9      258         12       15       12       3         0    100%       80%
+     10      200          4        9        4       5         0    100%       44%
+  TOTAL     2275        120      137      118      19         2     98%       86%
+
+Taxa de falso positivo: 0.9% das sessões normais foram retidas para revisão.
+
+Detecção por tipo de anomalia e camada da IA que disparou:
+  Tipo                    Detectadas    Regras  Z-score  IsolationF
+  cartao_desconhecido       6/6              6        0           0
+  consumo_atipico          27/29             0       25          23
+  medicao_impossivel       24/24            24        0           0
+  potencia_baixa           30/30             0        0          30
+  sem_energia              31/31            31        0           0
+
+(Uma mesma sessão pode ser pega por mais de uma camada.)
