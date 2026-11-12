@@ -217,7 +217,7 @@ Todas em `docs/evidencias/`:
 | Planejado na Sprint 1 | Implementado | Justificativa |
 |---|---|---|
 | PostgreSQL | **SQLite** | Protótipo roda sem instalar servidor de banco. O SQL usado é padrão e as tabelas são as mesmas planejadas (usuário, unidade, sessão, fatura); migrar para PostgreSQL é trocar a conexão em `database.py` |
-| Integração com a API SEMS real | **Mock da API SEMS** + esqueleto do cliente real (`ClienteSemsReal`) | Risco já previsto na Sprint 1: a documentação completa e as credenciais não são públicas. O resto do sistema só depende do método `buscar_sessoes(dia)`, então a troca afeta uma classe |
+| Integração com a API SEMS real | **Mock da API SEMS** + esqueleto do cliente real (`ClienteSemsReal`) | O protótipo usa dados simulados no mesmo formato da resposta da API SEMS (`docs/exemplo_resposta_sems.json`). O resto do sistema só depende do método `buscar_sessoes(dia)`, então conectar ao SEMS real afeta uma classe. Os dados simulados também trazem um gabarito de anomalias, que permitiu medir a IA |
 | Python **ou** Node.js na ingestão | Python | Toda a solução fica em uma linguagem, a mesma da IA |
 | FastAPI **ou** Express | FastAPI | Mesmo motivo; e a documentação automática (`/docs`) facilita testar |
 | Dashboard em React | **Streamlit** | Streamlit permite construir o dashboard em Python, reaproveitando diretamente as funções do núcleo. React exigiria uma segunda linguagem e um build separado sem acrescentar lógica de negócio ao protótipo |
@@ -234,7 +234,7 @@ Todas em `docs/evidencias/`:
 
 ## 8. Limitações e próximos passos
 
-- **Integração real com o SEMS:** obter credenciais via parceria FIAP/GoodWe e implementar `ClienteSemsReal`.
+- **Integração real com o SEMS:** usar o acesso à plataforma SEMS disponibilizado pela FIAP/GoodWe e implementar `ClienteSemsReal`.
 - **Calibrar a IA com dados reais:** ajustar a contaminação do Isolation Forest e o limiar de z-score.
 - **Cadastro pelo dashboard:** hoje um cartão desconhecido não pode ser aprovado; falta a tela para vincular o cartão a uma unidade.
 - **Autenticação:** a API não tem login; necessário antes de qualquer uso real.
